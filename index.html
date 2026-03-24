@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk1ldSBDb250cm9sZSBQcm8iLAogICJzaG9ydF9uYW1lIjogIkNvbnRyb2xlIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmMGYyZjUiLAogICJ0aGVtZV9jb2xvciI6ICIwMDU2YjMiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL2Nkbi1pY29ucy1wbmcuZmxhdGljb24uY29tLzUxMi8yNjkzLzI2OTM0NTgucG5nIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiCiAgICB9CiAgXQp9">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Controle Pro">
+    <title>Meu Controle Mobile Pro</title>
+    <style>
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background: #f0f2f5; margin: 0; padding: 15px; padding-bottom: 80px; color: #333; }
+
+        .month-selector {
+            background: #fff; padding: 12px; border-radius: 12px; margin-bottom: 15px;
+            display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            position: sticky; top: 10px; z-index: 1001;
+        }
+        .month-selector select { margin-bottom: 0; flex: 1; border: 1px solid #eee; font-weight: bold; color: #0056b3; }
+
+        .header-stats { display: flex; gap: 10px; margin-bottom: 15px; }
+        .box { flex: 1; padding: 15px; border-radius: 12px; color: white; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .b10 { background: #0056b3; }
+        .b20 { background: #6f42c1; }
+        .box small { display: block; font-size: 0.7rem; font-weight: bold; opacity: 0.9; text-transform: uppercase; }
+        .box strong { font-size: 1.2rem; }
+
+        .card { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        h2 { font-size: 0.8rem; color: #888; text-align: center; text-transform: uppercase; letter-spacing: 1.5px; margin: 0 0 15px 0; }
+
+        /* Estilo das Colunas */
+        .tables-container { display: flex; gap: 15px; flex-wrap: wrap; }
+        .table-wrapper { 
+            flex: 1; min-width: 300px; background: white; border-radius: 15px; 
+            padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; 
+        }
+        .table-wrapper h2 { border-bottom: 2px solid #f0f2f5; padding-bottom: 8px; margin-bottom: 10px; }
+
+        .progress-bg { background: #eee; border-radius: 10px; height: 10px; width: 100%; overflow: hidden; margin: 10px 0; }
+        .progress-fill { height: 100%; width: 0%; transition: 0.6s cubic-bezier(0.17, 0.67, 0.83, 0.67); background: #28a745; }
+
+        label { display: block; font-size: 0.7rem; color: #aaa; margin-bottom: 4px; font-weight: 700; padding-left: 5px; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 16px; margin-bottom: 15px; background: #fafafa; }
+        
+        button { width: 100%; padding: 16px; border: none; border-radius: 10px; font-weight: bold; font-size: 1rem; cursor: pointer; transition: 0.2s; }
+        .btn-add { background: #28a745; color: white; box-shadow: 0 4px 0 #1e7e34; margin-bottom: 10px; }
+        .btn-backup { background: #e9ecef; color: #495057; padding: 10px; font-size: 0.8rem; margin-bottom: 5px; }
+        .btn-import { background: #f8f9fa; color: #0056b3; padding: 10px; font-size: 0.8rem; border: 1px dashed #0056b3; }
+        .btn-del { background: #fff0f0; color: #ff4d4d; width: auto; padding: 8px 12px; border-radius: 8px; font-size: 0.9rem; border: 1px solid #ffebeb; }
+        
+        table { width: 100%; border-collapse: collapse; }
+        td { padding: 12px 5px; border-bottom: 1px solid #f8f9fa; }
+        .item-row-detail { display: flex; align-items: center; }
+        .cat-icon { background: #f0f2f5; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 10px; margin-right: 12px; flex-shrink: 0; font-size: 1.1rem; }
+        .item-desc { font-weight: 600; color: #333; font-size: 0.85rem; }
+        .item-valor { font-weight: 700; text-align: right; color: #2c3e50; font-size: 0.9rem; }
+        .empty-msg { text-align: center; color: #bbb; padding: 20px 0; font-style: italic; font-size: 0.8rem; }
+    </style>
+</head>
+
+<body>
+
+    <div class="month-selector">
+        <label style="margin:0; color:#333">MÊS:</label>
+        <select id="filtroMes" onchange="atualizar()"></select>
+    </div>
+
+    <div class="header-stats">
+        <div class="box b10"><small>DIA 10</small><strong id="total10">R$ 0,00</strong></div>
+        <div class="box b20"><small>DIA 20</small><strong id="total20">R$ 0,00</strong></div>
+    </div>
+
+    <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center">
+            <label style="margin:0">LIMITE MENSAL:</label>
+            <input type="number" id="limite" value="2000" onchange="atualizar()" style="width:90px; margin:0; padding:8px; border-color:#eee">
+        </div>
+        <div class="progress-bg"><div id="progress-fill" class="progress-fill"></div></div>
+        <small id="progresso-texto" style="color:#666; font-size:0.7rem; font-weight:500"></small>
+    </div>
+
+    <div class="tables-container">
+        <div class="table-wrapper">
+            <h2 style="color: #0056b3;">📅 Vencimento Dia 10</h2>
+            <table><tbody id="lista10"></tbody></table>
+        </div>
+        <div class="table-wrapper">
+            <h2 style="color: #6f42c1;">📅 Vencimento Dia 20</h2>
+            <table><tbody id="lista20"></tbody></table>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Novo Gasto</h2>
+        <label>CATEGORIA</label>
+        <select id="categoria">
+            <option value="🛒">Mercado</option>
+            <option value="🍕">Alimentação/Lazer</option>
+            <option value="🚗">Transporte</option>
+            <option value="🏠">Casa/Contas</option>
+            <option value="💊">Saúde</option>
+            <option value="💳">Cartão/Parcelas</option>
+            <option value="✨">Outros</option>
+        </select>
+        
+        <label>DESCRIÇÃO</label>
+        <input type="text" id="desc" placeholder="Ex: Netflix">
+        
+        <label>VALOR (R$)</label>
+        <input type="number" id="valor" step="0.01" inputmode="decimal" placeholder="0,00">
+        
+        <div style="display: flex; gap: 10px;">
+            <div style="flex:1"><label>REPETIR (MESES)</label><input type="number" id="parc" value="1" min="1"></div>
+            <div style="flex:1"><label>VENCIMENTO</label><select id="venc"><option value="10">Dia 10</option><option value="20">Dia 20</option></select></div>
+        </div>
+        <button class="btn-add" onclick="add()">ADICIONAR GASTO</button>
+        
+        <div style="display:flex; flex-direction:column; gap:5px; margin-top:10px">
+            <button class="btn-backup" onclick="exportarDados()">💾 EXPORTAR BACKUP</button>
+            <button class="btn-import" onclick="document.getElementById('fileInput').click()">📂 IMPORTAR BACKUP</button>
+            <input type="file" id="fileInput" style="display:none" onchange="importarDados(event)">
+        </div>
+    </div>
+
+<script>
+    let gastos = JSON.parse(localStorage.getItem('meusGastos')) || [];
+    
+    function configurarMeses() {
+        const select = document.getElementById('filtroMes');
+        const dataAtual = new Date();
+        select.innerHTML = "";
+        for (let i = -1; i <= 24; i++) {
+            let d = new Date(dataAtual.getFullYear(), dataAtual.getMonth() + i, 1);
+            let value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+            let label = d.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+            let opt = new Option(label.toUpperCase(), value);
+            if (i === 0) opt.selected = true;
+            select.add(opt);
+        }
+    }
+
+    function add() {
+        const d = document.getElementById('desc').value;
+        const v = parseFloat(document.getElementById('valor').value);
+        const p = parseInt(document.getElementById('parc').value);
+        const vc = document.getElementById('venc').value;
+        const cat = document.getElementById('categoria').value;
+        const [anoStart, mesStart] = document.getElementById('filtroMes').value.split('-').map(Number);
+
+        if (!d || isNaN(v) || v <= 0) return alert("Preencha a descrição e o valor!");
+
+        const idCompra = Date.now(); 
+
+        for (let i = 0; i < p; i++) {
+            let dataRef = new Date(anoStart, (mesStart - 1) + i, 1);
+            let mesRef = `${dataRef.getFullYear()}-${String(dataRef.getMonth() + 1).padStart(2, '0')}`;
+            
+            gastos.push({
+                d: p > 1 ? `${d} (${i+1}/${p})` : d,
+                vc,
+                p,
+                mensal: v,
+                cat,
+                mesReferencia: mesRef,
+                idGrupo: idCompra
+            });
+        }
+        
+        salvarEAtualizar();
+        document.getElementById('desc').value = "";
+        document.getElementById('valor').value = "";
+        document.getElementById('parc').value = "1";
+    }
+
+    function remover(index) {
+        const item = gastos[index];
+        if (item.p > 1) {
+            const opcao = confirm("Item repetido/parcelado.\n\nOK: Apagar TODAS as parcelas.\nCancelar: Apagar APENAS esta.");
+            if (opcao) {
+                gastos = gastos.filter(g => g.idGrupo !== item.idGrupo);
+            } else {
+                gastos.splice(index, 1);
+            }
+        } else {
+            if(confirm("Deseja apagar?")) gastos.splice(index, 1);
+        }
+        salvarEAtualizar();
+    }
+
+    function salvarEAtualizar() {
+        localStorage.setItem('meusGastos', JSON.stringify(gastos));
+        atualizar();
+    }
+
+    function atualizar() {
+        const lista10 = document.getElementById('lista10');
+        const lista20 = document.getElementById('lista20');
+        const mesFiltro = document.getElementById('filtroMes').value;
+        const limite = parseFloat(document.getElementById('limite').value) || 0;
+        
+        let t10 = 0, t20 = 0;
+        lista10.innerHTML = "";
+        lista20.innerHTML = "";
+
+        const gastosComIndex = gastos.map((g, index) => ({...g, idx: index}));
+        const filtrados = gastosComIndex.filter(g => g.mesReferencia === mesFiltro);
+
+        if (filtrados.length === 0) {
+            const msg = '<tr><td class="empty-msg">Sem gastos</td></tr>';
+            lista10.innerHTML = msg;
+            lista20.innerHTML = msg;
+        } else {
+            filtrados.forEach((g) => {
+                const html = `
+                    <tr>
+                        <td>
+                            <div class="item-row-detail">
+                                <div class="cat-icon">${g.cat}</div>
+                                <div class="item-desc">${g.d}</div>
+                            </div>
+                        </td>
+                        <td class="item-valor">R$ ${g.mensal.toLocaleString('pt-BR', {minimumFractionDigits:2})}</td>
+                        <td style="text-align:right"><button class="btn-del" onclick="remover(${g.idx})">✕</button></td>
+                    </tr>`;
+                
+                if(g.vc === "10") {
+                    t10 += g.mensal;
+                    lista10.innerHTML += html;
+                } else {
+                    t20 += g.mensal;
+                    lista20.innerHTML += html;
+                }
+            });
+        }
+
+        // Caso uma coluna esteja vazia mas a outra não
+        if (t10 === 0 && filtrados.length > 0) lista10.innerHTML = '<tr><td class="empty-msg">Nenhum gasto</td></tr>';
+        if (t20 === 0 && filtrados.length > 0) lista20.innerHTML = '<tr><td class="empty-msg">Nenhum gasto</td></tr>';
+
+        document.getElementById('total10').innerText = `R$ ${t10.toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
+        document.getElementById('total20').innerText = `R$ ${t20.toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
+
+        const total = t10 + t20;
+        const porc = Math.min((total / limite) * 100, 100);
+        const bar = document.getElementById('progress-fill');
+        bar.style.width = porc + "%";
+        bar.style.background = porc > 90 ? "#dc3545" : (porc > 70 ? "#ffc107" : "#28a745");
+        document.getElementById('progresso-texto').innerText = `${porc.toFixed(1)}% de R$ ${limite.toLocaleString('pt-BR')} (Total: R$ ${total.toLocaleString('pt-BR', {minimumFractionDigits:2})})`;
+        
+        localStorage.setItem('meuLimite', limite);
+    }
+
+    function exportarDados() {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(gastos));
+        const dlAnchor = document.createElement('a');
+        dlAnchor.setAttribute("href", dataStr);
+        dlAnchor.setAttribute("download", "backup_financeiro.json");
+        dlAnchor.click();
+    }
+
+    function importarDados(event) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const importados = JSON.parse(e.target.result);
+                if (Array.isArray(importados) && confirm("Importar backup e substituir dados atuais?")) {
+                    gastos = importados;
+                    salvarEAtualizar();
+                }
+            } catch (err) { alert("Arquivo inválido!"); }
+        };
+        reader.readAsText(event.target.files[0]);
+    }
+
+    window.onload = () => {
+        configurarMeses();
+        const salvo = localStorage.getItem('meuLimite');
+        if(salvo) document.getElementById('limite').value = salvo;
+        atualizar();
+		
+		if ('serviceWorker' in navigator) {
+        const sw = 'data:application/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdmZXRjaCcsIGV2ID0+IGV2LnJlc3BvbmRXaXRoKGZldGNoKGV2LnJlcXVlc3QpKSk7';
+        navigator.serviceWorker.register(sw);
+    }
+    };
+</script>
+</body>
+</html>
