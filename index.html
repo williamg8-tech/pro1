@@ -3,21 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	<link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk1ldSBDb250cm9sZSBQcm8iLAogICJzaG9ydF9uYW1lIjogIkNvbnRyb2xlIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmMGYyZjUiLAogICJ0aGVtZV9jb2xvciI6ICIwMDU2YjMiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL2Nkbi1pY29ucy1wbmcuZmxhdGljb24uY29tLzUxMi8yNjkzLzI2OTM0NTgucG5nIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiCiAgICB9CiAgXQp9">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Controle Pro">
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk1ldSBDb250cm9sZSBQcm8iLAogICJzaG9ydF9uYW1lIjogIkNvbnRyb2xlIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmMGYyZjUiLAogICJ0aGVtZV9jb2xvciI6ICIwMDU2YjMiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL2Nkbi1pY29ucy1wbmcuZmxhdGljb24uY29tLzUxMi8yNjkzLzI2OTM0NTgucG5nIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiCiAgICB9CiAgXQp9">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Controle Pro">
     <title>Meu Controle Mobile Pro</title>
     <style>
+        :root {
+            --bg-body: #f0f2f5;
+            --bg-card: #ffffff;
+            --text-main: #333333;
+            --text-sub: #888888;
+            --border: #eeeeee;
+            --input-bg: #fafafa;
+            --accent: #0056b3;
+        }
+
+        body.dark-mode {
+            --bg-body: #121212;
+            --bg-card: #1e1e1e;
+            --text-main: #e0e0e0;
+            --text-sub: #aaaaaa;
+            --border: #333333;
+            --input-bg: #2d2d2d;
+            --accent: #3b82f6;
+        }
+
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background: #f0f2f5; margin: 0; padding: 15px; padding-bottom: 80px; color: #333; }
+        body { background: var(--bg-body); margin: 0; padding: 15px; padding-bottom: 100px; color: var(--text-main); transition: 0.3s; }
 
         .month-selector {
-            background: #fff; padding: 12px; border-radius: 12px; margin-bottom: 15px;
+            background: var(--bg-card); padding: 12px; border-radius: 12px; margin-bottom: 15px;
             display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.08);
             position: sticky; top: 10px; z-index: 1001;
         }
-        .month-selector select { margin-bottom: 0; flex: 1; border: 1px solid #eee; font-weight: bold; color: #0056b3; }
+        .month-selector select { margin-bottom: 0; flex: 1; border: 1px solid var(--border); font-weight: bold; color: var(--accent); }
 
         .header-stats { display: flex; gap: 10px; margin-bottom: 15px; }
         .box { flex: 1; padding: 15px; border-radius: 12px; color: white; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
@@ -26,43 +46,55 @@
         .box small { display: block; font-size: 0.7rem; font-weight: bold; opacity: 0.9; text-transform: uppercase; }
         .box strong { font-size: 1.2rem; }
 
-        .card { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        h2 { font-size: 0.8rem; color: #888; text-align: center; text-transform: uppercase; letter-spacing: 1.5px; margin: 0 0 15px 0; }
+        .card { background: var(--bg-card); border-radius: 15px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        h2 { font-size: 0.8rem; color: var(--text-sub); text-align: center; text-transform: uppercase; letter-spacing: 1.5px; margin: 0 0 15px 0; }
 
-        /* Estilo das Colunas */
         .tables-container { display: flex; gap: 15px; flex-wrap: wrap; }
         .table-wrapper { 
-            flex: 1; min-width: 300px; background: white; border-radius: 15px; 
+            flex: 1; min-width: 300px; background: var(--bg-card); border-radius: 15px; 
             padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; 
         }
-        .table-wrapper h2 { border-bottom: 2px solid #f0f2f5; padding-bottom: 8px; margin-bottom: 10px; }
+        .table-wrapper h2 { border-bottom: 2px solid var(--bg-body); padding-bottom: 8px; margin-bottom: 10px; }
 
-        .progress-bg { background: #eee; border-radius: 10px; height: 10px; width: 100%; overflow: hidden; margin: 10px 0; }
+        .progress-bg { background: var(--border); border-radius: 10px; height: 10px; width: 100%; overflow: hidden; margin: 10px 0; }
         .progress-fill { height: 100%; width: 0%; transition: 0.6s cubic-bezier(0.17, 0.67, 0.83, 0.67); background: #28a745; }
 
-        label { display: block; font-size: 0.7rem; color: #aaa; margin-bottom: 4px; font-weight: 700; padding-left: 5px; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 16px; margin-bottom: 15px; background: #fafafa; }
+        label { display: block; font-size: 0.7rem; color: var(--text-sub); margin-bottom: 4px; font-weight: 700; padding-left: 5px; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 16px; margin-bottom: 15px; background: var(--input-bg); color: var(--text-main); }
         
         button { width: 100%; padding: 16px; border: none; border-radius: 10px; font-weight: bold; font-size: 1rem; cursor: pointer; transition: 0.2s; }
         .btn-add { background: #28a745; color: white; box-shadow: 0 4px 0 #1e7e34; margin-bottom: 10px; }
-        .btn-backup { background: #e9ecef; color: #495057; padding: 10px; font-size: 0.8rem; margin-bottom: 5px; }
-        .btn-import { background: #f8f9fa; color: #0056b3; padding: 10px; font-size: 0.8rem; border: 1px dashed #0056b3; }
+        .btn-backup { background: var(--border); color: var(--text-main); padding: 10px; font-size: 0.8rem; margin-bottom: 5px; }
+        .btn-import { background: transparent; color: var(--accent); padding: 10px; font-size: 0.8rem; border: 1px dashed var(--accent); }
         .btn-del { background: #fff0f0; color: #ff4d4d; width: auto; padding: 8px 12px; border-radius: 8px; font-size: 0.9rem; border: 1px solid #ffebeb; }
-        
+        body.dark-mode .btn-del { background: #3a1a1a; border-color: #552222; }
+
         table { width: 100%; border-collapse: collapse; }
-        td { padding: 12px 5px; border-bottom: 1px solid #f8f9fa; }
+        td { padding: 12px 5px; border-bottom: 1px solid var(--border); }
         .item-row-detail { display: flex; align-items: center; }
-        .cat-icon { background: #f0f2f5; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 10px; margin-right: 12px; flex-shrink: 0; font-size: 1.1rem; }
-        .item-desc { font-weight: 600; color: #333; font-size: 0.85rem; }
-        .item-valor { font-weight: 700; text-align: right; color: #2c3e50; font-size: 0.9rem; }
-        .empty-msg { text-align: center; color: #bbb; padding: 20px 0; font-style: italic; font-size: 0.8rem; }
+        .cat-icon { background: var(--bg-body); width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 10px; margin-right: 12px; flex-shrink: 0; font-size: 1.1rem; }
+        .item-desc { font-weight: 600; color: var(--text-main); font-size: 0.85rem; }
+        .item-valor { font-weight: 700; text-align: right; color: var(--text-main); font-size: 0.9rem; }
+        .empty-msg { text-align: center; color: var(--text-sub); padding: 20px 0; font-style: italic; font-size: 0.8rem; }
+
+        .notes-area { min-height: 120px; resize: vertical; outline: none; line-height: 1.5; }
+        .notes-area:focus { border-color: var(--accent); }
+
+        #theme-toggle {
+            position: fixed; bottom: 20px; right: 20px; width: 55px; height: 55px; 
+            border-radius: 50%; background: var(--accent); color: white; border: none; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 9999; font-size: 1.5rem;
+            display: flex; align-items: center; justify-content: center;
+        }
     </style>
 </head>
 
 <body>
 
+    <button id="theme-toggle" onclick="toggleTheme()">🌓</button>
+
     <div class="month-selector">
-        <label style="margin:0; color:#333">MÊS:</label>
+        <label style="margin:0">MÊS:</label>
         <select id="filtroMes" onchange="atualizar()"></select>
     </div>
 
@@ -74,10 +106,10 @@
     <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center">
             <label style="margin:0">LIMITE MENSAL:</label>
-            <input type="number" id="limite" value="2000" onchange="atualizar()" style="width:90px; margin:0; padding:8px; border-color:#eee">
+            <input type="number" id="limite" value="2000" onchange="atualizar()" style="width:90px; margin:0; padding:8px;">
         </div>
         <div class="progress-bg"><div id="progress-fill" class="progress-fill"></div></div>
-        <small id="progresso-texto" style="color:#666; font-size:0.7rem; font-weight:500"></small>
+        <small id="progresso-texto" style="font-size:0.7rem; font-weight:500"></small>
     </div>
 
     <div class="tables-container">
@@ -123,9 +155,51 @@
         </div>
     </div>
 
+    <div class="card">
+        <h2 style="color: #856404;">📝 BLOCO DE NOTAS</h2>
+        <textarea id="notas" class="notes-area" placeholder="Anotações, lembretes ou lista de compras..." oninput="salvarNotas()"></textarea>
+        <small style="color:var(--text-sub); font-size:0.6rem; display:block; margin-top:5px">Salva automaticamente ao digitar</small>
+    </div>
+
 <script>
     let gastos = JSON.parse(localStorage.getItem('meusGastos')) || [];
-    
+
+    // TEMA
+    function toggleTheme() {
+        const isDark = document.body.classList.toggle('dark-mode');
+        localStorage.setItem('temaEscuro', isDark);
+    }
+
+    function carregarTema() {
+        if (localStorage.getItem('temaEscuro') === 'true') {
+            document.body.classList.add('dark-mode');
+        }
+    }
+
+    // NOTAS
+    function salvarNotas() {
+        localStorage.setItem('minhasNotas', document.getElementById('notas').value);
+    }
+
+    // INICIALIZAÇÃO
+    window.onload = () => {
+        carregarTema();
+        configurarMeses();
+        
+        const salvoLimite = localStorage.getItem('meuLimite');
+        if(salvoLimite) document.getElementById('limite').value = salvoLimite;
+        
+        const notasSalvas = localStorage.getItem('minhasNotas');
+        if(notasSalvas) document.getElementById('notas').value = notasSalvas;
+        
+        atualizar();
+
+        if ('serviceWorker' in navigator) {
+            const sw = 'data:application/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdmZXRjaCcsIGV2ID0+IGV2LnJlc3BvbmRXaXRoKGZldGNoKGV2LnJlcXVlc3QpKSk7';
+            navigator.serviceWorker.register(sw);
+        }
+    };
+
     function configurarMeses() {
         const select = document.getElementById('filtroMes');
         const dataAtual = new Date();
@@ -234,7 +308,6 @@
             });
         }
 
-        // Caso uma coluna esteja vazia mas a outra não
         if (t10 === 0 && filtrados.length > 0) lista10.innerHTML = '<tr><td class="empty-msg">Nenhum gasto</td></tr>';
         if (t20 === 0 && filtrados.length > 0) lista20.innerHTML = '<tr><td class="empty-msg">Nenhum gasto</td></tr>';
 
@@ -272,18 +345,6 @@
         };
         reader.readAsText(event.target.files[0]);
     }
-
-    window.onload = () => {
-        configurarMeses();
-        const salvo = localStorage.getItem('meuLimite');
-        if(salvo) document.getElementById('limite').value = salvo;
-        atualizar();
-		
-		if ('serviceWorker' in navigator) {
-        const sw = 'data:application/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdmZXRjaCcsIGV2ID0+IGV2LnJlc3BvbmRXaXRoKGZldGNoKGV2LnJlcXVlc3QpKSk7';
-        navigator.serviceWorker.register(sw);
-    }
-    };
 </script>
 </body>
 </html>
