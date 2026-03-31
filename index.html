@@ -3,33 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk1ldSBDb250cm9sZSBQcm8iLAogICJzaG9ydF9uYW1lIjogIkNvbnRyb2xlIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmMGYyZjUiLAogICJ0aGVtZV9jb2xvciI6ICIwMDU2YjMiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL2Nkbi1pY29ucy1wbmcuZmxhdGljb24uY29tLzUxMi8yNjkzLzI2OTM0NTgucG5nIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiCiAgICB9CiAgXQp9">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Controle Pro">
-    <title>Meu Controle Mobile Pro</title>
+    <title>Controle Financeiro Pro</title>
+    <meta name="theme-color" content="#131722">
+    
     <style>
         :root {
-            --bg-body: #f0f2f5;
-            --bg-card: #ffffff;
-            --text-main: #333333;
-            --text-sub: #888888;
-            --border: #eeeeee;
-            --input-bg: #fafafa;
-            --accent: #0056b3;
+            --bg-body: #f0f2f5; --bg-card: #ffffff; --text-main: #333333;
+            --text-sub: #888888; --border: #eeeeee; --input-bg: #fafafa; --accent: #0056b3;
         }
-
         body.dark-mode {
-            --bg-body: #121212;
-            --bg-card: #1e1e1e;
-            --text-main: #e0e0e0;
-            --text-sub: #aaaaaa;
-            --border: #333333;
-            --input-bg: #2d2d2d;
-            --accent: #3b82f6;
+            --bg-body: #121212; --bg-card: #1e1e1e; --text-main: #e0e0e0;
+            --text-sub: #aaaaaa; --border: #333333; --input-bg: #2d2d2d; --accent: #3b82f6;
         }
 
-        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
         body { background: var(--bg-body); margin: 0; padding: 15px; padding-bottom: 100px; color: var(--text-main); transition: 0.3s; }
 
         .month-selector {
@@ -37,64 +24,52 @@
             display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.08);
             position: sticky; top: 10px; z-index: 1001;
         }
-        .month-selector select { margin-bottom: 0; flex: 1; border: 1px solid var(--border); font-weight: bold; color: var(--accent); }
+        .month-selector select { flex: 1; border: 1px solid var(--border); font-weight: bold; padding: 8px; border-radius: 8px; background: var(--input-bg); color: var(--text-main); outline: none; }
 
-        .header-stats { display: flex; gap: 10px; margin-bottom: 15px; }
-        .box { flex: 1; padding: 15px; border-radius: 12px; color: white; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .b10 { background: #0056b3; }
-        .b20 { background: #6f42c1; }
-        .box small { display: block; font-size: 0.7rem; font-weight: bold; opacity: 0.9; text-transform: uppercase; }
-        .box strong { font-size: 1.2rem; }
+        .header-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .box { padding: 12px 5px; border-radius: 12px; color: white; text-align: center; }
+        .b10 { background: #0056b3; } .b20 { background: #6f42c1; }
+        .box small { display: block; font-size: 0.6rem; font-weight: bold; opacity: 0.9; }
+        .box strong { font-size: 0.9rem; }
 
         .card { background: var(--bg-card); border-radius: 15px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        h2 { font-size: 0.8rem; color: var(--text-sub); text-align: center; text-transform: uppercase; letter-spacing: 1.5px; margin: 0 0 15px 0; }
+        h2 { font-size: 0.75rem; color: var(--text-sub); text-align: center; text-transform: uppercase; letter-spacing: 1.5px; margin: 0 0 15px 0; }
 
-        .tables-container { display: flex; gap: 15px; flex-wrap: wrap; }
-        .table-wrapper { 
-            flex: 1; min-width: 300px; background: var(--bg-card); border-radius: 15px; 
-            padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; 
-        }
-        .table-wrapper h2 { border-bottom: 2px solid var(--bg-body); padding-bottom: 8px; margin-bottom: 10px; }
+        .category-column-wrapper { display: flex; flex-direction: column; gap: 12px; }
+        .cat-row { display: flex; flex-direction: column; gap: 4px; }
+        .cat-info { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 500; }
+        .cat-bar-bg { background: var(--border); height: 8px; border-radius: 10px; overflow: hidden; width: 100%; }
+        .cat-bar-fill { height: 100%; background: var(--accent); transition: width 0.5s ease-out; border-radius: 10px; }
 
-        .progress-bg { background: var(--border); border-radius: 10px; height: 10px; width: 100%; overflow: hidden; margin: 10px 0; }
-        .progress-fill { height: 100%; width: 0%; transition: 0.6s cubic-bezier(0.17, 0.67, 0.83, 0.67); background: #28a745; }
+        .table-wrapper { background: var(--bg-card); border-radius: 15px; padding: 15px; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        td { padding: 8px 0; overflow: hidden; text-overflow: ellipsis; }
 
-        label { display: block; font-size: 0.7rem; color: var(--text-sub); margin-bottom: 4px; font-weight: 700; padding-left: 5px; }
+        .progress-bg { background: var(--border); border-radius: 10px; height: 12px; width: 100%; overflow: hidden; margin: 10px 0; }
+        .progress-fill { height: 100%; width: 0%; transition: 0.6s; background: #28a745; }
+
         input, select, textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 16px; margin-bottom: 15px; background: var(--input-bg); color: var(--text-main); }
+        button { width: 100%; padding: 16px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: opacity 0.2s; }
+        button:active { opacity: 0.7; }
+        .btn-add { background: #28a745; color: white; margin-bottom: 10px; }
+        .btn-del { background: transparent; color: #ff4d4d; border: 1px solid #ff4d4d1a; padding: 5px; width: 30px; font-size: 0.8rem; }
         
-        button { width: 100%; padding: 16px; border: none; border-radius: 10px; font-weight: bold; font-size: 1rem; cursor: pointer; transition: 0.2s; }
-        .btn-add { background: #28a745; color: white; box-shadow: 0 4px 0 #1e7e34; margin-bottom: 10px; }
-        .btn-backup { background: var(--border); color: var(--text-main); padding: 10px; font-size: 0.8rem; margin-bottom: 5px; }
-        .btn-import { background: transparent; color: var(--accent); padding: 10px; font-size: 0.8rem; border: 1px dashed var(--accent); }
-        .btn-del { background: #fff0f0; color: #ff4d4d; width: auto; padding: 8px 12px; border-radius: 8px; font-size: 0.9rem; border: 1px solid #ffebeb; }
-        body.dark-mode .btn-del { background: #3a1a1a; border-color: #552222; }
+        .pago { text-decoration: line-through; opacity: 0.3; filter: grayscale(1); }
 
-        table { width: 100%; border-collapse: collapse; }
-        td { padding: 12px 5px; border-bottom: 1px solid var(--border); }
-        .item-row-detail { display: flex; align-items: center; }
-        .cat-icon { background: var(--bg-body); width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 10px; margin-right: 12px; flex-shrink: 0; font-size: 1.1rem; }
-        .item-desc { font-weight: 600; color: var(--text-main); font-size: 0.85rem; }
-        .item-valor { font-weight: 700; text-align: right; color: var(--text-main); font-size: 0.9rem; }
-        .empty-msg { text-align: center; color: var(--text-sub); padding: 20px 0; font-style: italic; font-size: 0.8rem; }
-
-        .notes-area { min-height: 120px; resize: vertical; outline: none; line-height: 1.5; }
-        .notes-area:focus { border-color: var(--accent); }
-
-        #theme-toggle {
-            position: fixed; bottom: 20px; right: 20px; width: 55px; height: 55px; 
-            border-radius: 50%; background: var(--accent); color: white; border: none; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 9999; font-size: 1.5rem;
-            display: flex; align-items: center; justify-content: center;
-        }
+        #theme-toggle { 
+    position: fixed; 
+    bottom: 20px; 
+    right: 20px; 
+    /* ... restasnte do estilo */
+}
     </style>
 </head>
 
 <body>
-
     <button id="theme-toggle" onclick="toggleTheme()">🌓</button>
 
     <div class="month-selector">
-        <label style="margin:0">MÊS:</label>
+        <label style="font-size: 0.6rem; font-weight: bold;">MÊS:</label>
         <select id="filtroMes" onchange="atualizar()"></select>
     </div>
 
@@ -105,245 +80,205 @@
 
     <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center">
-            <label style="margin:0">LIMITE MENSAL:</label>
-            <input type="number" id="limite" value="2000" onchange="atualizar()" style="width:90px; margin:0; padding:8px;">
+            <label style="font-size: 0.7rem; font-weight: bold;">LIMITE MENSAL:</label>
+            <input type="number" id="limite" value="2000" onchange="salvarEAtualizar()" style="width:90px; margin:0; padding:5px;">
         </div>
-        <div class="progress-bg"><div id="progress-fill" class="progress-fill"></div></div>
-        <small id="progresso-texto" style="font-size:0.7rem; font-weight:500"></small>
+        <div class="progress-bg">
+            <div id="progress-fill" class="progress-fill"></div>
+        </div>
     </div>
 
-    <div class="tables-container">
-        <div class="table-wrapper">
-            <h2 style="color: #0056b3;">📅 Vencimento Dia 10</h2>
-            <table><tbody id="lista10"></tbody></table>
-        </div>
-        <div class="table-wrapper">
-            <h2 style="color: #6f42c1;">📅 Vencimento Dia 20</h2>
-            <table><tbody id="lista20"></tbody></table>
-        </div>
+    <div class="card">
+        <h2>Resumo por Categoria</h2>
+        <div id="resumo-categorias" class="category-column-wrapper"></div>
+    </div>
+
+    <div class="table-wrapper">
+        <h2 style="color: #0056b3; border-bottom: 1px solid #0056b322; padding-bottom: 8px;">Vencimento Dia 10</h2>
+        <table id="lista10"></table>
+    </div>
+
+    <div class="table-wrapper">
+        <h2 style="color: #6f42c1; border-bottom: 1px solid #6f42c122; padding-bottom: 8px;">Vencimento Dia 20</h2>
+        <table id="lista20"></table>
     </div>
 
     <div class="card">
         <h2>Novo Gasto</h2>
-        <label>CATEGORIA</label>
         <select id="categoria">
-            <option value="🛒">Mercado</option>
-            <option value="🍕">Alimentação/Lazer</option>
-            <option value="🚗">Transporte</option>
-            <option value="🏠">Casa/Contas</option>
-            <option value="💊">Saúde</option>
-            <option value="💳">Cartão/Parcelas</option>
-            <option value="✨">Outros</option>
+            <option value="🛒 Mercado">🛒 Mercado</option>
+            <option value="🍕 Lazer">🍕 Lazer</option>
+            <option value="🚗 Transp.">🚗 Transporte</option>
+            <option value="🏠 Casa">🏠 Casa/Contas</option>
+            <option value="💊 Saúde">💊 Saúde</option>
+            <option value="💳 Cartão">💳 Cartão</option>
+            <option value="✨ Outros">✨ Outros</option>
         </select>
-        
-        <label>DESCRIÇÃO</label>
         <input type="text" id="desc" placeholder="Ex: Netflix">
-        
-        <label>VALOR (R$)</label>
-        <input type="number" id="valor" step="0.01" inputmode="decimal" placeholder="0,00">
+        <input type="text" id="valor" inputmode="decimal" placeholder="Valor R$ (ex: 150,00)">
         
         <div style="display: flex; gap: 10px;">
-            <div style="flex:1"><label>REPETIR (MESES)</label><input type="number" id="parc" value="1" min="1"></div>
-            <div style="flex:1"><label>VENCIMENTO</label><select id="venc"><option value="10">Dia 10</option><option value="20">Dia 20</option></select></div>
+            <div style="flex:1"><label style="font-size:0.6rem">REPETIR</label><input type="number" id="parc" value="1" min="1"></div>
+            <div style="flex:1"><label style="font-size:0.6rem">DIA</label><select id="venc"><option value="10">10</option><option value="20">20</option></select></div>
         </div>
-        <button class="btn-add" onclick="add()">ADICIONAR GASTO</button>
-        
-        <div style="display:flex; flex-direction:column; gap:5px; margin-top:10px">
-            <button class="btn-backup" onclick="exportarDados()">💾 EXPORTAR BACKUP</button>
-            <button class="btn-import" onclick="document.getElementById('fileInput').click()">📂 IMPORTAR BACKUP</button>
-            <input type="file" id="fileInput" style="display:none" onchange="importarDados(event)">
-        </div>
+        <button class="btn-add" onclick="add()">ADICIONAR</button>
     </div>
 
     <div class="card">
-        <h2 style="color: #856404;">📝 BLOCO DE NOTAS</h2>
-        <textarea id="notas" class="notes-area" placeholder="Anotações, lembretes ou lista de compras..." oninput="salvarNotas()"></textarea>
-        <small style="color:var(--text-sub); font-size:0.6rem; display:block; margin-top:5px">Salva automaticamente ao digitar</small>
+        <h2 id="titulo-notas">📝 NOTAS</h2>
+        <textarea id="notas" style="min-height: 80px" oninput="salvarNotas()" placeholder="Notas importantes para este mês..."></textarea>
+        <button style="background: var(--border); font-size: 0.8rem; height: 40px; padding:0; color: var(--text-main)" onclick="exportarDados()">💾 BACKUP JSON</button>
     </div>
 
 <script>
     let gastos = JSON.parse(localStorage.getItem('meusGastos')) || [];
 
-    // TEMA
+    window.onload = () => {
+        if (localStorage.getItem('temaEscuro') === 'true') document.body.classList.add('dark-mode');
+        configurarMeses();
+        const ultimoMes = localStorage.getItem('ultimoMesSelecionado');
+        if(ultimoMes) document.getElementById('filtroMes').value = ultimoMes;
+        const salvoLimite = localStorage.getItem('meuLimite');
+        if(salvoLimite) document.getElementById('limite').value = salvoLimite;
+        atualizar();
+    };
+
     function toggleTheme() {
         const isDark = document.body.classList.toggle('dark-mode');
         localStorage.setItem('temaEscuro', isDark);
     }
 
-    function carregarTema() {
-        if (localStorage.getItem('temaEscuro') === 'true') {
-            document.body.classList.add('dark-mode');
-        }
-    }
-
-    // NOTAS
-    function salvarNotas() {
-        localStorage.setItem('minhasNotas', document.getElementById('notas').value);
-    }
-
-    // INICIALIZAÇÃO
-    window.onload = () => {
-        carregarTema();
-        configurarMeses();
-        
-        const salvoLimite = localStorage.getItem('meuLimite');
-        if(salvoLimite) document.getElementById('limite').value = salvoLimite;
-        
-        const notasSalvas = localStorage.getItem('minhasNotas');
-        if(notasSalvas) document.getElementById('notas').value = notasSalvas;
-        
-        atualizar();
-
-        if ('serviceWorker' in navigator) {
-            const sw = 'data:application/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdmZXRjaCcsIGV2ID0+IGV2LnJlc3BvbmRXaXRoKGZldGNoKGV2LnJlcXVlc3QpKSk7';
-            navigator.serviceWorker.register(sw);
-        }
-    };
-
     function configurarMeses() {
         const select = document.getElementById('filtroMes');
         const dataAtual = new Date();
-        select.innerHTML = "";
-        for (let i = -1; i <= 24; i++) {
+        for (let i = -3; i <= 12; i++) {
             let d = new Date(dataAtual.getFullYear(), dataAtual.getMonth() + i, 1);
             let value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
             let label = d.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
-            let opt = new Option(label.toUpperCase(), value);
-            if (i === 0) opt.selected = true;
-            select.add(opt);
+            select.add(new Option(label.toUpperCase(), value));
         }
     }
 
     function add() {
-        const d = document.getElementById('desc').value;
-        const v = parseFloat(document.getElementById('valor').value);
-        const p = parseInt(document.getElementById('parc').value);
-        const vc = document.getElementById('venc').value;
-        const cat = document.getElementById('categoria').value;
-        const [anoStart, mesStart] = document.getElementById('filtroMes').value.split('-').map(Number);
+        const descInput = document.getElementById('desc'), valorInput = document.getElementById('valor');
+        // Correção: Remove espaços e troca vírgula por ponto de forma mais segura
+        const desc = descInput.value.trim();
+        const valorRaw = valorInput.value.replace(/\s/g, '').replace(',', '.');
+        const valor = parseFloat(valorRaw);
 
-        if (!d || isNaN(v) || v <= 0) return alert("Preencha a descrição e o valor!");
+        if(!desc || isNaN(valor)) return alert("Por favor, preencha a descrição e um valor válido.");
 
-        const idCompra = Date.now(); 
+        const [ano, mes] = document.getElementById('filtroMes').value.split('-').map(Number);
+        const parc = parseInt(document.getElementById('parc').value) || 1;
 
-        for (let i = 0; i < p; i++) {
-            let dataRef = new Date(anoStart, (mesStart - 1) + i, 1);
-            let mesRef = `${dataRef.getFullYear()}-${String(dataRef.getMonth() + 1).padStart(2, '0')}`;
-            
+        for(let i = 0; i < parc; i++) {
+            let dRef = new Date(ano, (mes - 1) + i, 1);
             gastos.push({
-                d: p > 1 ? `${d} (${i+1}/${p})` : d,
-                vc,
-                p,
-                mensal: v,
-                cat,
-                mesReferencia: mesRef,
-                idGrupo: idCompra
+                id: Date.now() + Math.random(),
+                d: parc > 1 ? `${desc} (${i+1}/${parc})` : desc,
+                mensal: valor,
+                cat: document.getElementById('categoria').value,
+                vc: document.getElementById('venc').value,
+                mesReferencia: `${dRef.getFullYear()}-${String(dRef.getMonth() + 1).padStart(2, '0')}`,
+                pago: false
             });
         }
-        
+        descInput.value = ""; valorInput.value = "";
         salvarEAtualizar();
-        document.getElementById('desc').value = "";
-        document.getElementById('valor').value = "";
-        document.getElementById('parc').value = "1";
     }
 
-    function remover(index) {
-        const item = gastos[index];
-        if (item.p > 1) {
-            const opcao = confirm("Item repetido/parcelado.\n\nOK: Apagar TODAS as parcelas.\nCancelar: Apagar APENAS esta.");
-            if (opcao) {
-                gastos = gastos.filter(g => g.idGrupo !== item.idGrupo);
-            } else {
-                gastos.splice(index, 1);
-            }
-        } else {
-            if(confirm("Deseja apagar?")) gastos.splice(index, 1);
+    function togglePago(id) {
+        const g = gastos.find(g => g.id === id);
+        if(g) {
+            g.pago = !g.pago;
+            salvarEAtualizar();
         }
-        salvarEAtualizar();
+    }
+
+    function remover(id) {
+        if(confirm("Deseja excluir este item?")) {
+            gastos = gastos.filter(g => g.id !== id);
+            salvarEAtualizar();
+        }
     }
 
     function salvarEAtualizar() {
         localStorage.setItem('meusGastos', JSON.stringify(gastos));
+        localStorage.setItem('meuLimite', document.getElementById('limite').value);
         atualizar();
     }
 
+    function salvarNotas() {
+        const mes = document.getElementById('filtroMes').value;
+        let notas = JSON.parse(localStorage.getItem('notasPorMes')) || {};
+        notas[mes] = document.getElementById('notas').value;
+        localStorage.setItem('notasPorMes', JSON.stringify(notas));
+    }
+
     function atualizar() {
-        const lista10 = document.getElementById('lista10');
-        const lista20 = document.getElementById('lista20');
         const mesFiltro = document.getElementById('filtroMes').value;
         const limite = parseFloat(document.getElementById('limite').value) || 0;
-        
-        let t10 = 0, t20 = 0;
-        lista10.innerHTML = "";
-        lista20.innerHTML = "";
+        localStorage.setItem('ultimoMesSelecionado', mesFiltro);
 
-        const gastosComIndex = gastos.map((g, index) => ({...g, idx: index}));
-        const filtrados = gastosComIndex.filter(g => g.mesReferencia === mesFiltro);
+        const notas = JSON.parse(localStorage.getItem('notasPorMes')) || {};
+        document.getElementById('notas').value = notas[mesFiltro] || "";
 
-        if (filtrados.length === 0) {
-            const msg = '<tr><td class="empty-msg">Sem gastos</td></tr>';
-            lista10.innerHTML = msg;
-            lista20.innerHTML = msg;
-        } else {
-            filtrados.forEach((g) => {
-                const html = `
-                    <tr>
-                        <td>
-                            <div class="item-row-detail">
-                                <div class="cat-icon">${g.cat}</div>
-                                <div class="item-desc">${g.d}</div>
-                            </div>
-                        </td>
-                        <td class="item-valor">R$ ${g.mensal.toLocaleString('pt-BR', {minimumFractionDigits:2})}</td>
-                        <td style="text-align:right"><button class="btn-del" onclick="remover(${g.idx})">✕</button></td>
-                    </tr>`;
-                
-                if(g.vc === "10") {
-                    t10 += g.mensal;
-                    lista10.innerHTML += html;
-                } else {
-                    t20 += g.mensal;
-                    lista20.innerHTML += html;
-                }
-            });
-        }
+        let t10 = 0, t20 = 0, cats = {};
+        const l10 = document.getElementById('lista10'), l20 = document.getElementById('lista20'), res = document.getElementById('resumo-categorias');
+        l10.innerHTML = ""; l20.innerHTML = ""; res.innerHTML = "";
 
-        if (t10 === 0 && filtrados.length > 0) lista10.innerHTML = '<tr><td class="empty-msg">Nenhum gasto</td></tr>';
-        if (t20 === 0 && filtrados.length > 0) lista20.innerHTML = '<tr><td class="empty-msg">Nenhum gasto</td></tr>';
+        const filtrados = gastos.filter(g => g.mesReferencia === mesFiltro);
 
-        document.getElementById('total10').innerText = `R$ ${t10.toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
-        document.getElementById('total20').innerText = `R$ ${t20.toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
+        filtrados.forEach(g => {
+            cats[g.cat] = (cats[g.cat] || 0) + g.mensal;
+            const tr = `<tr style="border-bottom: 1px solid var(--border)">
+                <td onclick="togglePago(${g.id})" style="padding:10px 0; cursor:pointer; width:60%">
+                    <span style="font-size:0.6rem; color:var(--text-sub); display:block">${g.cat}</span>
+                    <b class="${g.pago ? 'pago' : ''}" style="word-break: break-word; white-space: normal;">${g.d}</b>
+                </td>
+                <td style="text-align:right; font-weight:bold; width:30%; padding-right:5px" class="${g.pago ? 'pago' : ''}">R$ ${g.mensal.toFixed(2)}</td>
+                <td style="text-align:right; width:10%"><button class="btn-del" onclick="remover(${g.id})">✕</button></td>
+            </tr>`;
+            if(g.vc === "10") { t10 += g.mensal; l10.innerHTML += tr; }
+            else { t20 += g.mensal; l20.innerHTML += tr; }
+        });
 
-        const total = t10 + t20;
-        const porc = Math.min((total / limite) * 100, 100);
+        const totalMes = t10 + t20;
+        Object.entries(cats).sort((a,b) => b[1] - a[1]).forEach(([c, v]) => {
+            const perc = totalMes > 0 ? (v / totalMes * 100).toFixed(0) : 0;
+            res.innerHTML += `
+                <div class="cat-row">
+                    <div class="cat-info">
+                        <span>${c}</span>
+                        <span>R$ ${v.toFixed(2)} <small>(${perc}%)</small></span>
+                    </div>
+                    <div class="cat-bar-bg">
+                        <div class="cat-bar-fill" style="width: ${perc}%"></div>
+                    </div>
+                </div>`;
+        });
+
+        document.getElementById('total10').innerText = `R$ ${t10.toFixed(2)}`;
+        document.getElementById('total20').innerText = `R$ ${t20.toFixed(2)}`;
+
+        const p = limite > 0 ? Math.min((totalMes / limite * 100), 100) : 0;
         const bar = document.getElementById('progress-fill');
-        bar.style.width = porc + "%";
-        bar.style.background = porc > 90 ? "#dc3545" : (porc > 70 ? "#ffc107" : "#28a745");
-        document.getElementById('progresso-texto').innerText = `${porc.toFixed(1)}% de R$ ${limite.toLocaleString('pt-BR')} (Total: R$ ${total.toLocaleString('pt-BR', {minimumFractionDigits:2})})`;
-        
-        localStorage.setItem('meuLimite', limite);
+        bar.style.width = p + "%";
+        bar.style.background = p > 90 ? "#dc3545" : (p > 70 ? "#ffc107" : "#28a745");
     }
 
     function exportarDados() {
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(gastos));
-        const dlAnchor = document.createElement('a');
-        dlAnchor.setAttribute("href", dataStr);
-        dlAnchor.setAttribute("download", "backup_financeiro.json");
-        dlAnchor.click();
-    }
-
-    function importarDados(event) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            try {
-                const importados = JSON.parse(e.target.result);
-                if (Array.isArray(importados) && confirm("Importar backup e substituir dados atuais?")) {
-                    gastos = importados;
-                    salvarEAtualizar();
-                }
-            } catch (err) { alert("Arquivo inválido!"); }
+        const mesFiltro = document.getElementById('filtroMes').value;
+        const data = {
+            gastos, 
+            notas: JSON.parse(localStorage.getItem('notasPorMes')), 
+            limite: document.getElementById('limite').value
         };
-        reader.readAsText(event.target.files[0]);
+        const blob = new Blob([JSON.stringify(data, null, 2)], {type: "application/json"});
+        const a = document.createElement('a'); 
+        a.href = URL.createObjectURL(blob);
+        a.download = `backup_financeiro_${mesFiltro}.json`; 
+        a.click();
     }
 </script>
 </body>
