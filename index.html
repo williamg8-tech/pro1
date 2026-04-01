@@ -56,11 +56,29 @@
         
         .pago { text-decoration: line-through; opacity: 0.3; filter: grayscale(1); }
 
-        #theme-toggle { 
-    position: fixed; 
-    bottom: 20px; 
-    right: 20px; 
-    /* ... restasnte do estilo */
+    #theme-toggle {
+    position: fixed;
+    bottom: 20px;         /* Distância da borda inferior */
+    right: 20px;          /* Distância da borda direita */
+    width: 50px;          /* Largura fixa para ser redondo */
+    height: 50px;         /* Altura fixa para ser redondo */
+    border-radius: 50%;   /* Faz o botão ficar circular */
+    background: var(--accent); /* Usa a cor azul definida no :root */
+    color: white;
+    border: none;
+    cursor: pointer;
+    z-index: 9999;        /* Garante que ele fique sobre todos os elementos */
+    display: flex;        /* Alinha o emoji no centro */
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;    /* Tamanho do ícone da lua */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* Sombra para dar profundidade */
+    padding: 0;           /* Remove o padding padrão que herdaria do botão comum */
+    transition: transform 0.2s; /* Efeito de clique */
+}
+
+#theme-toggle:active {
+    transform: scale(0.9); /* Diminui levemente ao tocar */
 }
     </style>
 </head>
